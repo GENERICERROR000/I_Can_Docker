@@ -179,7 +179,7 @@ USER
 # Specify the user name or UID to use when building or running the image.
 ```
 
-## 6. Managing Docker via CLI: How your life can be improved with just a few hundred of hours practice...
+## 6. Managing Docker via CLI: How your life can be improved with just a few hundred hours of practice...
 
 ```bash
 # List all images
