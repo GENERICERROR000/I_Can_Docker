@@ -224,7 +224,7 @@ https://dev.to/softchris/5-part-docker-series-beginner-to-master-3m1b
 
 https://medium.freecodecamp.org/a-beginner-friendly-introduction-to-containers-vms-and-docker-79a9e3e119b
 
-stackhttps://stackedit.io/viewer#!url=https://gist.githubusercontent.com/d4nyll/7267c1f88bf4f0e6ab5c4c4f72cdc2a4/raw/fcd9c12634dc3d1d25f847427a9774dac6747078/The%2520Comprehensive%2520Introduction%2520to%2520Docker
+https://stackedit.io/viewer#!url=https://gist.githubusercontent.com/d4nyll/7267c1f88bf4f0e6ab5c4c4f72cdc2a4/raw/fcd9c12634dc3d1d25f847427a9774dac6747078/The%2520Comprehensive%2520Introduction%2520to%2520Docker
 
 https://docs.docker.com/engine/docker-overview/
 
