@@ -1,6 +1,6 @@
-# I Can Docker?
+# I Can Docker And You Can Too
 
-1. What is "Docker(s)"?
+1. What is Docker?
 2. Why should you use it?
 3. Contain Errs
 4. Docker World<sup>TM</sup>
@@ -9,7 +9,7 @@
 7. Containerizing an app
 8. What’s that? Ah - Production? Don’t talk about - production? You kidding me? Production? I just hope we can run this container!
 
-## 1. What is "Docker(s)"
+## 1. What is Docker?
 
 * Ensures consistency across your deployed application instances, minimizes errors, and makes managing scalable infrastructure much easier.
 * Modularization / Separation of concerns
@@ -17,7 +17,7 @@
 
 ## 2. Why should you use it?
 
-2* Local environment setup is annoying (`brew install <app>` more like `"brew is upgrading - maybe find something else todo"`)
+* Local environment setup is annoying (`brew install <app>` more like `"brew is upgrading - maybe find something else todo"`)
 
 ## 3. Contain Errs
 
@@ -25,8 +25,8 @@
 
 ### Container
 
-* Docker containers must be self-dependent. This means all dependencies required by the container, including platforms and the actual application code, are packaged inside the container. (different from standard Linux containers - for what it's worth)
-* Those dependancies are provided by the image that the container runs on top of. For our purposes, a container a container is a running instance of a image.
+* Docker containers must be self-dependent. This means all dependencies required by the container, including platforms and the actual application code, are packaged inside the container (different from standard Linux containers - for what it's worth).
+* Those dependancies are provided by the image that the container runs on top of. For our purposes, a container is a running instance of an image.
 
 ### Image
 
@@ -48,7 +48,8 @@ In the end, you get an ordered list of sequentially-dependent layers, which make
 
 * [Want install? Click here and act now!](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
 * Container Registry ([Docker Hub](https://hub.docker.com/))
-* Docker Engine - The Docker daemon and client, together, makes up the Docker Engine
+* Docker Engine
+    - The Docker daemon and client, together, makes up the Docker Engine
 
 ## 5. Running your first container
 
@@ -64,7 +65,7 @@ docker run \
     --rm \
     -d \
     --name nginx \
-    -p 8080:80 \
+    -p 80:80 \
     nginx:1.15.12
 
 # Run container with custom content to be served by nginx
@@ -78,7 +79,7 @@ docker run \
     nginx:1.15.12
 
 # This is the part where one "exec's" into the container, and tries to
-# delete a photo in the mounted dir but can't because it's read only
+# delete a photo in the mounted dir but can't because it's "read only"
 docker run \
     --rm \
     -it \
@@ -106,7 +107,7 @@ CMD
 # specifies the default command to pass to the ENTRYPOINT when you run docker run. There should only be one, and only one, CMD instruction in a Dockerfile. If multiple are provided, the last one will be used.
 ```
 
-## 6. Docker and the CLI: How your life can be improved with just a few hundreds of hours practice...
+## 6. Docker and the CLI: How your life can be improved with just a few hundred of hours practice...
 
 ## 7. What’s that? Ah - Production? Don’t talk about - production? You kidding me? Production? I just hope we can run this container!
 
@@ -129,3 +130,5 @@ https://dev.to/softchris/5-part-docker-series-beginner-to-master-3m1b (5 part se
 
 https://docs.docker.com/engine/docker-overview/
 https://docs.docker.com/get-started/
+
+Clippy Code: https://github.com/smore-inc/clippy.js
