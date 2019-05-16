@@ -217,6 +217,7 @@ docker logs -f
 * Small images
 * No baking your secrets
 * Don't run as `root` user
+    - [Read why](https://medium.com/@mccode/processes-in-containers-should-not-run-as-root-2feae3f0df3b)
 
 # Sources (but what about open source...)
 
