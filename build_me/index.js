@@ -58,13 +58,13 @@ http.createServer(function (req, res) {
             }
         }
 
-
         // read file from file system
         fs.readFile(pathname, function(err, data){
             if(err && isConfig){
                 res.statusCode = 500;
                 res.end(`Error getting the file: ${err}.`);
             } else if (pathname.includes("config")) {
+                // Send config data
                 res.setHeader('Content-type', 'application/json');
                 res.end( JSON.stringify(secret));
             }
