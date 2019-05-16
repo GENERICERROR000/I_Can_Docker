@@ -158,7 +158,7 @@ docker run \
     dockers:0.0.1
 ```
 
-### Other Dockerfile commands to know
+### Other Dockerfile instructions to know
 
 ```dockerfile
 ENV
