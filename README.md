@@ -13,17 +13,18 @@
 ### Docker and containers
 
 * Docker helps you create a reproducible environment.
-    - Your application is run in inside and isolated environment.
-* You are able to specify the specific OS, the exact version of different libraries, different environment variables and their values among other things.
+    - Your application is run inside an isolated environment.
+* You are able to specify the OS, the exact version of different libraries, different environment variables and their values among other things.
     - Containers contain everything you need to run an application, including the source code you wrote.
-* Makes it easy to create multiple micro-services that are written in different programming languages and that are using different versions of the same lib and even the same OS.
 
 ### Why should you use it?
 
-* Local environment setup is annoying (`brew install <app>` more like `"brew is upgrading - maybe find something else todo"`)
+* Local environment setup is annoying
+    - (`brew install <app>` more like `"brew is upgrading - maybe find something else todo"`)
 * Environments looks the same
 * Works on my machine
 * Modularization and separation of concerns
+* Makes it easy to create multiple micro-services that are written in different programming languages and that are using different versions of the same lib and even the same OS.
 
 ## 2. Contain Errs
 
@@ -51,11 +52,12 @@
 * Each of these operation produces a layer.
     - Can be viewed as a point-in-time snapshot of the image at time of process.
     - The next operation operates on the last layer, and builds on top of it.
-* In the end, you get an ordered list of sequentially-dependent layers, which makes up the image.
+* In the end, you get an ordered list of sequentially-dependent layers, which make up the image.
 
 ### A Running Container
 
-* When running a container, a new writable container layer is created on top of the read-only image (composed of read-only layers). Any file changes are contained within the container layer.
+* When running a container, a new writable container layer is created on top of the read-only image (composed of read-only layers). Any file changes are contained within this new "top" container layer.
+    - **These changes will not persist when the container is removed!**
 * Image layers are never changed.
 
 ## 3. Docker World<sup>TM</sup>
@@ -71,10 +73,10 @@
 # Just run it
 docker run -it docker/surprise
 
-# Get Image
+# Get image
 docker pull nginx:1.15.12
 
-# Run Container
+# Run container
 docker run \
     --rm \
     -d \
@@ -112,7 +114,7 @@ docker run \
 ### Dockerfile and Building Images
 
 ```dockerfile
-FROM ubuntu
+FROM
 # Specifies the image (OS) used for the "base image"
 # The first instruction in any Dockerfile
 
@@ -121,9 +123,8 @@ RUN
 # Each RUN instruction creates a new layer in the image.
 
 ENTRYPOINT
-# Path to the executable (along with its arguments) that should be run when when the container is initiated
+# Path to the executable (with arguments) that should be run when the container is initiated
 # If this is not specified, it defaults to the shell (/bin/sh -c)
-
 
 CMD
 # Specifies the default command to pass to the ENTRYPOINT when you run docker run.
@@ -133,6 +134,9 @@ CMD
 ### Build Image
 
 ```bash
+# cd into the correct dir
+cd ./build_me
+
 # Build image
 docker build -t dockers:0.0.1 .
 
@@ -162,13 +166,13 @@ ENV
 
 COPY
 # Copy the files from the build context to the directory specified
-# User over ADD when possible
+# Use over ADD when possible
 
 WORKDIR
 # Changes the working directory for any RUN, CMD, ENTRYPOINT, COPY, and ADD instructions that comes after WORKDIR
 
 EXPOSE
-# Tells Docker which port(s) the container listens to at runtime.
+# Tells Docker which port(s) the container listens on at runtime.
 # EXPOSE does not expose the port from the container to the host, it just tells Docker that the container is listening on that port.
 
 USER
