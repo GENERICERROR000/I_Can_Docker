@@ -3,11 +3,11 @@ const url = require('url');
 const fs = require('fs');
 const path = require('path');
 
-// Get secret from config
+// get secret from config
 const secret = require('./src/config.js');
 
-// you can pass the parameter in the command line. e.g. node static_server.js 3000
-const port = process.argv[2] || 3000;
+// set port
+const port = 3000;
 
 // maps file extention to MIME types
 const mimeType = {
@@ -50,7 +50,7 @@ http.createServer(function (req, res) {
         // if is a directory, then look for index.html
         if (isConfig) {
             if (fs.statSync(pathname).isDirectory()) {
-                if (typeof secret !== 'undefined' && secret !== null) {
+                if (typeof secret.secret !== 'undefined' && secret.secret !== null) {
                     pathname += '/secret.html';
                 } else {
                     pathname += '/index.html';
