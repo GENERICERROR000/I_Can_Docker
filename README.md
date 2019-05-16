@@ -1,57 +1,71 @@
 # I Can Docker And You Can Too
 
-1. What is Docker?
-2. Why should you use it?
-3. Contain Errs
-4. Docker World<sup>TM</sup>
-5. Running your first container
-6. Docker and the CLI: How your life can be improved with just a few hundreds of hours practice...
-7. Containerizing an app
-8. What’s that? Ah - Production? Don’t talk about - production? You kidding me? Production? I just hope we can run this container!
+1. What is this Docker?
+2. Contain Errs
+3. Docker World<sup>TM</sup>
+4. Running your first container
+5. Containerizing an application
+6. Managing Docker via CLI: How your life can be improved with just a few hundred of hours practice...
+7. What’s that? Ah - Production? Don’t talk about - production? You kidding me? Production? I just hope we can run this container!
 
-## 1. What is Docker?
+## 1. What is this Docker?
 
-* Ensures consistency across your deployed application instances, minimizes errors, and makes managing scalable infrastructure much easier.
-* Modularization / Separation of concerns
-* By modularizing our code into standalone units with a single concern, our code become much more reusable and easier to manage. If we want to replace an old feature, all we need to do is remove the old module and replace it with a new one, without it affecting the entire codebase.
+### Docker and containers
 
-## 2. Why should you use it?
+* Docker helps you create a reproducible environment.
+    - Your application is run in inside and isolated environment.
+* You are able to specify the specific OS, the exact version of different libraries, different environment variables and their values among other things.
+    - Containers contain everything you need to run an application, including the source code you wrote.
+* Makes it easy to create multiple micro-services that are written in different programming languages and that are using different versions of the same lib and even the same OS.
+
+### Why should you use it?
 
 * Local environment setup is annoying (`brew install <app>` more like `"brew is upgrading - maybe find something else todo"`)
+* Environments looks the same
+* Works on my machine
+* Modularization and separation of concerns
 
-## 3. Contain Errs
+## 2. Contain Errs
 
 * Container != Virtual Machine (VM)
+    - Containers and VMs are similar in their goals: to isolate an application and its dependencies into a self-contained unit that can run anywhere.
+    - Remove the need for physical hardware, allowing for more efficient use of computing resources
+* A VM is essentially an emulation of a real computer that executes programs like a real computer. VMs run on top of a physical machine using a “hypervisor”. A hypervisor, in turn, runs on either a host machine or on “bare-metal”.
+* A container provides operating-system-level virtualization by abstracting the “user space”.
+
 
 ### Container
 
-* Docker containers must be self-dependent. This means all dependencies required by the container, including platforms and the actual application code, are packaged inside the container (different from standard Linux containers - for what it's worth).
-* Those dependancies are provided by the image that the container runs on top of. For our purposes, a container is a running instance of an image.
+* Docker containers are self-dependent.
+    - All dependencies required by the container, including platforms and the actual application code, are packaged inside the container (different from standard Linux containers - for what it's worth).
+* Those dependencies are provided by the image that the container runs on top of. For our purposes, a container is a running instance of an image.
 
 ### Image
 
-* An image is simply an ordered list of layers, which are each representations of the changes to the filesystem.
-* Since everything in Linux is a file, what these filesystem changes really represents are operations, such as the running of installation scripts. Therefore, an image is really just an environment that resulted from sequential operations that was ran to set up the environment.
+* An image is simply an ordered list of layers, which represent changes to the filesystem.
+* Since everything in Linux is a file, what these filesystem changes really represents are operations, such as the running of installation scripts.
+    - An image is really just an environment that resulted from sequential operations that are run to set up the environment.
 
 ### Layer
 
-* Each of these operation produces a layer, which can be view as a snapshot of the image at this point of the set-up process. The next operation would then operate on the last layer, and builds on top of it.
-
-In the end, you get an ordered list of sequentially-dependent layers, which makes up the image.
+* Each of these operation produces a layer.
+    - Can be viewed as a point-in-time snapshot of the image at time of process.
+    - The next operation operates on the last layer, and builds on top of it.
+* In the end, you get an ordered list of sequentially-dependent layers, which makes up the image.
 
 ### A Running Container
 
 * When running a container, a new writable container layer is created on top of the read-only image (composed of read-only layers). Any file changes are contained within the container layer.
-* If a file from the image is needed to be changed, the diff is stored in the container layer - the image layers are never changed.
+* Image layers are never changed.
 
-## 4. Docker World<sup>TM</sup>
+## 3. Docker World<sup>TM</sup>
 
 * [Want install? Click here and act now!](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
 * Container Registry ([Docker Hub](https://hub.docker.com/))
 * Docker Engine
     - The Docker daemon and client, together, makes up the Docker Engine
 
-## 5. Running your first container
+## 4. Running your first container
 
 ```bash
 # Just run it
@@ -89,46 +103,127 @@ docker run \
     /bin/bash
 ```
 
-## 5. Containerizing an app
+### Port syntax
 
-### Dockerfile
+`-p [external (host) port]:[internal (container) port]`
 
+## 5. Containerizing an application
+
+### Dockerfile and Building Images
 
 ```dockerfile
 FROM ubuntu
-# Specifies the image used for the "base image"
+# Specifies the image (OS) used for the "base image"
 # The first instruction in any Dockerfile
 
 RUN
-# specifies the command(s) to run at build time. Each RUN command would be a new layer in our image.
+# The command(s) to run at build time.
+# Each RUN instruction creates a new layer in the image.
+
 ENTRYPOINT
-# specifies the path to the executable (along with its arguments) that should be ran when initiated with docker run <your-image>. If this is not specified, it defaults to the shell (/bin/sh -c)
+# Path to the executable (along with its arguments) that should be run when when the container is initiated
+# If this is not specified, it defaults to the shell (/bin/sh -c)
+
+
 CMD
-# specifies the default command to pass to the ENTRYPOINT when you run docker run. There should only be one, and only one, CMD instruction in a Dockerfile. If multiple are provided, the last one will be used.
+# Specifies the default command to pass to the ENTRYPOINT when you run docker run.
+# There should only be one, and only one in a Dockerfile.
 ```
 
-## 6. Docker and the CLI: How your life can be improved with just a few hundred of hours practice...
+### Build Image
+
+```bash
+# Build image
+docker build -t dockers:0.0.1 .
+
+# Run it
+docker run \
+    --rm \
+    -it \
+    --name dockers \
+    -p 3000:3000 \
+    dockers:0.0.1
+
+# Run it and set an environment variable
+docker run \
+    --rm \
+    -it \
+    --name dockers \
+    -p 3000:3000 \
+    -e SECRET="IsSafe?" \
+    dockers:0.0.1
+```
+
+### Other Dockerfile commands to know
+
+```dockerfile
+ENV
+# Set environment variables that are available during build and run-time
+
+COPY
+# Copy the files from the build context to the directory specified
+# User over ADD when possible
+
+WORKDIR
+# Changes the working directory for any RUN, CMD, ENTRYPOINT, COPY, and ADD instructions that comes after WORKDIR
+
+EXPOSE
+# Tells Docker which port(s) the container listens to at runtime.
+# EXPOSE does not expose the port from the container to the host, it just tells Docker that the container is listening on that port.
+
+USER
+# Specify the user name or UID to use when building or running the image.
+```
+
+## 6. Managing Docker via CLI: How your life can be improved with just a few hundred of hours practice...
+
+```bash
+# List all images
+docker image ls
+
+# List all containers
+docker ps -a
+
+# Remove image
+dr rmi
+
+# Remove container
+docker rm
+
+# Stop container
+docker stop
+# SIGTERM
+
+# Kill container
+docker kill
+# SIGKILL
+
+# Get into running container
+docker exec
+
+# Inspect an image or container
+docker inspect
+
+# Get logs for container
+docker logs -f
+```
 
 ## 7. What’s that? Ah - Production? Don’t talk about - production? You kidding me? Production? I just hope we can run this container!
 
-## 8. Somethin' Extra - Linux, Cgroups, and Namespaces
+* Small images
+* No baking your secrets
+* Don't run as `root` user
 
-* Container != Virtual Machine (VM)
-* Processes which run inside a container are isolated by namespaces and control group, and not by an entire operating system running on emulated hardware. This means processes in a container are run on the kernel of the host system (this is efficient)
+# Sources (but what about open source...)
 
-* Linux Containers rely on two Linux kernel mechanisms - control groups and namespaces.
-* Control groups (cgroups) separates processes by groups, and attaches to different subsystems which restricts the resource usage of each group.
-* Namespaces package system resources, such as filesystems, network access e.t.c., and present them to a process. From the view of the process, it does not even know there are resources outside of its allocation.
+https://dev.to/softchris/5-part-docker-series-beginner-to-master-3m1b
 
-* Linux Containers have been around for a decade. Docker isn’t reinventing the wheel (nor is it trying to), but is providing a standard way to define, build and run containers. Docker have also nurtured the container ecosystem, by providing tools that abstracts low-level process (like managing control groups) away from the end-user.
+https://medium.freecodecamp.org/a-beginner-friendly-introduction-to-containers-vms-and-docker-79a9e3e119b
 
-## Sources (but what about open source...)
-
-https://stackedit.io/viewer#!url=https://gist.githubusercontent.com/d4nyll/7267c1f88bf4f0e6ab5c4c4f72cdc2a4/raw/fcd9c12634dc3d1d25f847427a9774dac6747078/The%2520Comprehensive%2520Introduction%2520to%2520Docker
-
-https://dev.to/softchris/5-part-docker-series-beginner-to-master-3m1b (5 part series)
+stackhttps://stackedit.io/viewer#!url=https://gist.githubusercontent.com/d4nyll/7267c1f88bf4f0e6ab5c4c4f72cdc2a4/raw/fcd9c12634dc3d1d25f847427a9774dac6747078/The%2520Comprehensive%2520Introduction%2520to%2520Docker
 
 https://docs.docker.com/engine/docker-overview/
+
 https://docs.docker.com/get-started/
 
-Clippy Code: https://github.com/smore-inc/clippy.js
+https://github.com/smore-inc/clippy.js (Clippy Code)

@@ -50,7 +50,7 @@ http.createServer(function (req, res) {
         // if is a directory, then look for index.html
         if (isConfig) {
             if (fs.statSync(pathname).isDirectory()) {
-                if (typeof secret.secret !== 'undefined' && secret.secret !== null) {
+                if (secret.secret !== 'undefined') {
                     pathname += '/secret.html';
                 } else {
                     pathname += '/index.html';
